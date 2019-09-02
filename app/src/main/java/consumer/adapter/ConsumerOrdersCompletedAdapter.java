@@ -1,6 +1,7 @@
 package consumer.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,9 @@ import com.google.gson.Gson;
 import java.util.List;
 
 import beans.Orders;
+import studio.carwash.com.carwash.ConsumerActivity;
+import studio.carwash.com.carwash.OrderActivity;
+import studio.carwash.com.carwash.OrderStatusActivity;
 import studio.carwash.com.carwash.R;
 
 /**
@@ -62,8 +66,10 @@ public class ConsumerOrdersCompletedAdapter extends RecyclerView.Adapter<Consume
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String vehicleJson = gson.toJson(orderSelected);
-                    Toast.makeText(mCtx,vehicleJson,Toast.LENGTH_SHORT).show();
+                    String orderJson = gson.toJson(orderSelected);
+                    Intent intent =  new Intent( mCtx, OrderStatusActivity.class);
+                    intent.putExtra("orderSelected",orderJson);
+                    mCtx.startActivity(intent);
                 }
             });
         }

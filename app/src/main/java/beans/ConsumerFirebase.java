@@ -1,0 +1,27 @@
+package beans;
+
+/**
+ * Created by Dell on 8/31/2019.
+ */
+
+public class ConsumerFirebase {
+
+    private Integer consumerFirebaseId;
+    private String firebaseToken;
+
+    public Integer getConsumerFirebaseId() {
+        return consumerFirebaseId;
+    }
+
+    public void setConsumerFirebaseId(Integer consumerFirebaseId) {
+        this.consumerFirebaseId = consumerFirebaseId;
+    }
+
+    public String getFirebaseToken() {
+        return firebaseToken;
+    }
+
+    public void setFirebaseToken(String firebaseToken) {
+        this.firebaseToken = firebaseToken;
+    }
+}

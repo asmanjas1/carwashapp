@@ -154,10 +154,13 @@ public class OrderActivity extends AppCompatActivity {
         orders.setConsumer(con);
         orders.setOrderAmount(30d);
         orders.setOrderPaymentStatus("pending");
-        orders.setOrderStatus("In Progress");
+        orders.setOrderStatus("New");
 
         orders.setOrderAddressId(selectedAddress.getAddressId());
         orders.setOrderVehicleId(selectedVehicle.getVehicleId());
+
+        orders.setOrderAddressCity(selectedAddress.getCity());
+        orders.setOrderAddressState(selectedAddress.getState());
 
         RestInvokerService restInvokerService = RestClient.getClient().create(RestInvokerService.class);
         Call<Map<String, Object>> call = restInvokerService.placeOrder(orders);

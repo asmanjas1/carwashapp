@@ -13,6 +13,7 @@ import consumer.fragments.ConsumerHomeFragment;
 import consumer.fragments.ConsumerOrdersFragment;
 import consumer.fragments.ConsumerProfileFragment;
 import consumer.fragments.ConsumerSettingFragment;
+import resources.SaveSharedPreference;
 
 public class ConsumerActivity extends AppCompatActivity {
 
@@ -20,6 +21,8 @@ public class ConsumerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consumer);
+
+        SaveSharedPreference.saveFirebaseTokenToserver(this);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.navigation_consumer);

@@ -72,6 +72,8 @@ public class CarConstant {
 
         progressDoalog = new ProgressDialog(context);
         progressDoalog.setMax(100);
+        progressDoalog.setCancelable(false);
+        progressDoalog.setCanceledOnTouchOutside(false);
         progressDoalog.setMessage(msg);
         progressDoalog.setTitle("Please Wait");
         progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);

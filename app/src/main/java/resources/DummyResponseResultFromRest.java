@@ -54,7 +54,7 @@ public class DummyResponseResultFromRest {
 
         o1.setOrderAmount(30d);
         o1.setOrderId(146126);
-        o1.setOrderCompletedDate(new Date());
+        //o1.setOrderCompletedDate(new Date());
         Vehicle v = new Vehicle(125456973, "KA21 201012","Honda City","Car Suv",new Consumer());
         List<Vehicle> orderList = new ArrayList<>();
         orderList.add(v);
@@ -64,7 +64,7 @@ public class DummyResponseResultFromRest {
 
         o2.setOrderAmount(40d);
         o2.setOrderId(1461221);
-        o2.setOrderCompletedDate(new Date());
+        //o2.setOrderCompletedDate(new Date());
         o2.setConsumer(co);
 
         addressList.add(o1);
@@ -79,7 +79,7 @@ public class DummyResponseResultFromRest {
 
         o1.setOrderAmount(30d);
         o1.setOrderId(146126);
-        o1.setOrderCompletedDate(new Date());
+        //o1.setOrderCompletedDate(new Date());
         Vehicle v = new Vehicle(125456973, "KA21 201014","Honda City Wegon","Car Suv",new Consumer());
         List<Vehicle> orderList = new ArrayList<>();
         orderList.add(v);

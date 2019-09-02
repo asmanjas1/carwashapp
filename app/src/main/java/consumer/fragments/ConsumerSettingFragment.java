@@ -52,7 +52,9 @@ public class ConsumerSettingFragment extends Fragment {
             public void onClick(View v) {
                 SaveSharedPreference.logOut(getContext());
                 Intent intent = new Intent(getContext(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                getActivity().finish();
             }
         });
         btn_Email.setOnClickListener(new View.OnClickListener() {

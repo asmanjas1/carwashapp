@@ -6,6 +6,7 @@ import java.util.Map;
 import beans.Carwasher;
 import beans.Consumer;
 import beans.ConsumerAddress;
+import beans.ConsumerFirebase;
 import beans.Orders;
 import beans.Vehicle;
 import retrofit2.Call;
@@ -35,5 +36,10 @@ public interface RestInvokerService {
     @GET("/orderController/getOrdersForConsumer/{consumerId}")
     Call<Map<String, Object>> getAllOrdersForConsumer(@Path("consumerId") Integer consumerId);
 
+    @POST("/consumerController/saveFirebaseToken")
+    Call<Map<String, Object>> saveFirevaseToken(@Body ConsumerFirebase consumerFirebase);
+
+    @GET("/orderController/getAllDetailsForOrderId/{orderId}")
+    Call<Map<String, Object>> getAllDetailsForOrderId(@Path("orderId") Integer orderId);
 
 }

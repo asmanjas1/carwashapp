@@ -8,8 +8,8 @@ import java.util.Date;
 
 public class Orders {
     private Integer orderId;
-    private Date orderDate;
-    private Date orderCompletedDate;
+    private String orderDate;
+    private String orderCompletedDate;
     private Double orderAmount;
     private String orderStatus;
     private String orderPaymentStatus;
@@ -18,6 +18,52 @@ public class Orders {
     private Integer orderCarwasherId;
     private Integer orderVehicleId;
     private Integer orderAddressId;
+    private String orderAddressCity;
+    private String orderAddressState;
+
+    private Carwasher carwasher;
+    private Vehicle orderVehicle;
+    private ConsumerAddress orderAddress;
+
+    public Carwasher getCarwasher() {
+        return carwasher;
+    }
+
+    public void setCarwasher(Carwasher carwasher) {
+        this.carwasher = carwasher;
+    }
+
+    public Vehicle getOrderVehicle() {
+        return orderVehicle;
+    }
+
+    public void setOrderVehicle(Vehicle orderVehicle) {
+        this.orderVehicle = orderVehicle;
+    }
+
+    public ConsumerAddress getOrderAddress() {
+        return orderAddress;
+    }
+
+    public void setOrderAddress(ConsumerAddress orderAddress) {
+        this.orderAddress = orderAddress;
+    }
+
+    public String getOrderAddressCity() {
+        return orderAddressCity;
+    }
+
+    public void setOrderAddressCity(String orderAddressCity) {
+        this.orderAddressCity = orderAddressCity;
+    }
+
+    public String getOrderAddressState() {
+        return orderAddressState;
+    }
+
+    public void setOrderAddressState(String orderAddressState) {
+        this.orderAddressState = orderAddressState;
+    }
 
     public Integer getOrderCarwasherId() {
         return orderCarwasherId;
@@ -47,24 +93,24 @@ public class Orders {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
-
-    public Date getOrderDate() {
+    public String getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
     }
 
-    public Date getOrderCompletedDate() {
+    public String getOrderCompletedDate() {
         return orderCompletedDate;
     }
 
-    public void setOrderCompletedDate(Date orderCompletedDate) {
+    public void setOrderCompletedDate(String orderCompletedDate) {
         this.orderCompletedDate = orderCompletedDate;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 
     public Double getOrderAmount() {

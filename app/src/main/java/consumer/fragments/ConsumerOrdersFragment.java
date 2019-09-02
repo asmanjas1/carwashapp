@@ -111,7 +111,7 @@ public class ConsumerOrdersFragment extends Fragment {
         Log.d("aoisnaskas",list.toString());
         for(String ss: list){
             Orders order = gson.fromJson(ss, Orders.class);
-            if(order.getOrderStatus().equals("In Progress")){
+            if(order.getOrderStatus().equals("In Progress") || order.getOrderStatus().equals("New")){
                 inProgressOrdersList.add(order);
             } else if(order.getOrderStatus().equals("Completed")){
                 completedOrdersList.add(order);
