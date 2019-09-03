@@ -2,6 +2,7 @@ package studio.carwash.com.carwash;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +14,17 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
+
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import beans.Carwasher;
 import beans.Consumer;
@@ -34,9 +44,19 @@ public class SignupActivity extends AppCompatActivity {
     @InjectView(R.id.input_email) EditText _emailText;
     @InjectView(R.id.input_password) EditText _passwordText;
     @InjectView(R.id.input_confirmPassword) EditText _passwordConfirmText;
-    @InjectView(R.id.input_phoneNumber) EditText _phoneNumber;
     @InjectView(R.id.btn_signup) Button _signupButton;
     @InjectView(R.id.link_login) TextView _loginLink;
+    @InjectView(R.id.textViewDetailsMsg) TextView textViewDetailsMsg;
+
+    @InjectView(R.id.input_phoneNumberOtp) EditText input_phoneNumberOtp;
+    @InjectView(R.id.input_otp) EditText input_otp;
+    @InjectView(R.id.btn_sendOtp) Button btn_sendOtp;
+    @InjectView(R.id.btn_verifyOtp) Button btn_verifyOtp;
+
+    String phoneNumber, otp;
+    FirebaseAuth auth;
+    PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback;
+    private String verificationCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +64,35 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
         ButterKnife.inject(this);
 
-        _signupButton.setOnClickListener(new View.OnClickListener() {
+        StartFirebaseLogin();
+
+        _nameText.setVisibility(View.GONE);
+        _emailText.setVisibility(View.GONE);
+        _passwordText.setVisibility(View.GONE);
+        _passwordConfirmText.setVisibility(View.GONE);
+        _signupButton.setVisibility(View.GONE);
+        textViewDetailsMsg.setVisibility(View.GONE);
+
+        btn_sendOtp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signup();
+                phoneNumber = input_phoneNumberOtp.getText().toString();
+                PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                        phoneNumber,
+                        70,
+                        TimeUnit.SECONDS,
+                        SignupActivity.this,
+                        mCallback
+                );
+            }
+        });
+
+        btn_verifyOtp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                otp = input_otp.getText().toString();
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationCode, otp);
+                SigninWithPhone(credential);
             }
         });
 
@@ -58,6 +103,66 @@ public class SignupActivity extends AppCompatActivity {
                 startActivity(i);
                 // Finish the registration screen and return to the Login activity
                 finish();
+            }
+        });
+    }
+
+    private void StartFirebaseLogin() {
+
+        auth = FirebaseAuth.getInstance();
+        mCallback = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+            @Override
+            public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+                Toast.makeText(SignupActivity.this,"verification completed",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onVerificationFailed(FirebaseException e) {
+                Toast.makeText(SignupActivity.this,"verification failed",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                super.onCodeSent(s, forceResendingToken);
+                verificationCode = s;
+                Toast.makeText(SignupActivity.this,"Code sent",Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
+
+    private void SigninWithPhone(PhoneAuthCredential credential) {
+        auth.signInWithCredential(credential)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            setSignUpView();
+                            Toast.makeText(SignupActivity.this,"Correct OTP",Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(SignupActivity.this,"Incorrect OTP",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    public void setSignUpView(){
+        input_phoneNumberOtp.setVisibility(View.GONE);
+        input_otp.setVisibility(View.GONE);
+        btn_sendOtp.setVisibility(View.GONE);
+        btn_verifyOtp.setVisibility(View.GONE);
+
+        _nameText.setVisibility(View.VISIBLE);
+        _emailText.setVisibility(View.VISIBLE);
+        _passwordText.setVisibility(View.VISIBLE);
+        _passwordConfirmText.setVisibility(View.VISIBLE);
+        _signupButton.setVisibility(View.VISIBLE);
+        textViewDetailsMsg.setVisibility(View.VISIBLE);
+
+        _signupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signup();
             }
         });
     }
@@ -73,7 +178,6 @@ public class SignupActivity extends AppCompatActivity {
         String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
-        String phoneNumber = _phoneNumber.getText().toString();
         // TODO: Implement your own signup logic here.
 
         RestInvokerService restInvokerService = RestClient.getClient().create(RestInvokerService.class);
@@ -103,8 +207,13 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void onSignupSuccess() {
+        finishFirebaseAuth();
         setResult(RESULT_OK, null);
         finish();
+    }
+
+    public void finishFirebaseAuth(){
+        auth.signOut();
     }
 
     public void onSignupFailed() {
@@ -118,7 +227,6 @@ public class SignupActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
         String confirmPassword = _passwordConfirmText.getText().toString();
-        String phoneNumber = _phoneNumber.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
             _nameText.setError("please set a name of at least 3 characters");
@@ -132,13 +240,6 @@ public class SignupActivity extends AppCompatActivity {
             valid = false;
         } else {
             _emailText.setError(null);
-        }
-
-        if (phoneNumber.isEmpty() || !(phoneNumber.length() == 10)) {
-            _phoneNumber.setError("enter a valid contact number");
-            valid = false;
-        } else {
-            _phoneNumber.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
