@@ -16,28 +16,16 @@
     android:text="Add New Car"
     />
 
-    <Button
-        android:id="@+id/btn_booknow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:layout_marginBottom="14dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/colorWhite"
-        android:text="Book Your Carwasher"
-        />
-
     <TextView
         android:id="@+id/textView_booknow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Please select a car from below list or Add a new car."
+        android:text="Book your carwasher! please select a car from below list or add new car."
         android:layout_marginLeft="14dp"
         android:layout_marginRight="14dp"
         android:layout_marginBottom="14dp"
+        android:textColor="@color/cardview_dark_background"
         android:textSize="18sp"/>
 
     <android.support.v7.widget.RecyclerView

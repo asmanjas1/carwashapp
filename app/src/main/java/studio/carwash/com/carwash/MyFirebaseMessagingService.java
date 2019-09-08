@@ -1,6 +1,8 @@
 package studio.carwash.com.carwash;
 
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -21,12 +23,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
         Log.d("Logs", "From: " + remoteMessage.getFrom());
         String title = "Order Status";
         String body = "Your recent order status is changed.. click to see details.";
-
+        String sound = "default";
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d("Logs", "Message data payload: " + remoteMessage.getData());
             title = remoteMessage.getData().get("title");
             body = remoteMessage.getData().get("body");
+            sound = remoteMessage.getData().get("sound");
         }
 
         // Check if message contains a notification payload.
@@ -36,12 +39,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
-        notifyUser(title,body);
+        notifyUser(title,body,sound);
     }
 
-    public void notifyUser(String from, String notification){
+    public void notifyUser(String from, String notification, String sound){
         MyNotificationManager manager = new MyNotificationManager(this);
-        manager.showSmallNotification(from,notification, new Intent(this, ConsumerActivity.class));
+        manager.showSmallNotification(from,notification,sound, new Intent(this, ConsumerActivity.class));
 
     }
 }

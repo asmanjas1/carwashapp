@@ -42,4 +42,7 @@ public interface RestInvokerService {
     @GET("/orderController/getAllDetailsForOrderId/{orderId}")
     Call<Map<String, Object>> getAllDetailsForOrderId(@Path("orderId") Integer orderId);
 
+    @GET("/consumerController/doLoginByNumber/{phoneNumber}")
+    Call<Map<String, Object>> doLoginByNumber(@Path("phoneNumber") String phoneNumber);
+
 }

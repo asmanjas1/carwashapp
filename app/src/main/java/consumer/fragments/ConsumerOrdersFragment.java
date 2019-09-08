@@ -83,14 +83,12 @@ public class ConsumerOrdersFragment extends Fragment {
         progressDialog =  CarConstant.getProgressDialog(getContext(),"Loading...");
         progressDialog.show();
         Integer id = SaveSharedPreference.getConsumerFromGson(getContext()).getConsumerId();
-        Log.d("response:",id.toString());
         RestInvokerService restInvokerService = RestClient.getClient().create(RestInvokerService.class);
         Call<Map<String, Object>> call = restInvokerService.getAllOrdersForConsumer(id);
         call.enqueue(new Callback<Map<String, Object>>() {
             @Override
             public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
                 Map<String, Object> map = response.body();
-                Log.d("response:",map.toString());
                if( map.get("resCode").equals(200.0)){
                     List<String> list = (List<String>) map.get("data");
                    processOrderResponse(list);
@@ -108,7 +106,6 @@ public class ConsumerOrdersFragment extends Fragment {
     }
 
     public void processOrderResponse(List<String> list){
-        Log.d("aoisnaskas",list.toString());
         for(String ss: list){
             Orders order = gson.fromJson(ss, Orders.class);
             if(order.getOrderStatus().equals("In Progress") || order.getOrderStatus().equals("New")){
@@ -128,7 +125,7 @@ public class ConsumerOrdersFragment extends Fragment {
             recyclerViewInProgressOrders.setAdapter(consumerCarAdapter);
         }else {
             progressDialog.dismiss();
-            Toast.makeText(getContext(),"Not able to fetch Order List",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"Not able to fetch In Progress order list",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -139,7 +136,7 @@ public class ConsumerOrdersFragment extends Fragment {
             recyclerViewCompletedOrders.setAdapter(consumerCarAdapter);
         }else {
             progressDialog.dismiss();
-            Toast.makeText(getContext(),"Not able to fetch Order List",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"Not able to fetch Completed order list",Toast.LENGTH_SHORT).show();
         }
     }
 }

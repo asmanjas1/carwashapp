@@ -37,7 +37,7 @@ import studio.carwash.com.carwash.R;
 
 public class ConsumerHomeFragment extends Fragment{
 
-    Button addCarButton,bookNow;
+    Button addCarButton;
     TextView textView_bookNow;
     RecyclerView recyclerViewCar;
     List<Vehicle> vehicleList;
@@ -64,13 +64,11 @@ public class ConsumerHomeFragment extends Fragment{
         View view  = inflater.inflate(R.layout.consumer_home_fragment, container, false);
 
         addCarButton = (Button) view.findViewById(R.id.btn_addNewCar);
-        bookNow = (Button) view.findViewById(R.id.btn_booknow);
         recyclerViewCar = (RecyclerView) view.findViewById(R.id.recyclerViewForConsumerCarList);
         textView_bookNow = (TextView) view.findViewById(R.id.textView_booknow);
 
         recyclerViewCar.setHasFixedSize(true);
         recyclerViewCar.setLayoutManager(new LinearLayoutManager(getContext()));
-        textView_bookNow.setVisibility(View.GONE);
 
         loadCars();
         addCarButton.setOnClickListener(new View.OnClickListener() {
@@ -81,12 +79,6 @@ public class ConsumerHomeFragment extends Fragment{
             }
         });
 
-        bookNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textView_bookNow.setVisibility(View.VISIBLE);
-            }
-        });
         return view;
     }
 
@@ -112,7 +104,7 @@ public class ConsumerHomeFragment extends Fragment{
                     recyclerViewCar.setAdapter(consumerCarAdapter);
                 }else {
                     progressDialog.dismiss();
-                    Toast.makeText(getContext(),"Not able to fetch Order List",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"No cars found.",Toast.LENGTH_LONG).show();
                 }
             }
         }, 100);

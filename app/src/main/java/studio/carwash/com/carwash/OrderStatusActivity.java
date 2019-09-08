@@ -130,15 +130,27 @@ public class OrderStatusActivity extends AppCompatActivity {
         Carwasher carwasher = orders.getCarwasher();
         if(carwasher != null){
             orderStatusCarwasher.setVisibility(View.VISIBLE);
-            textViewOrderStatusCarwasherName.setText("Carwasher Name: "+carwasher.getName());
-            final String phoneNumber = carwasher.getPhoneNumber();
-            textViewOrderStatusCarwasherPhoneNumber.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+phoneNumber));
-                    startActivity(intent);
+            if(carwasher.getName() != null){
+                textViewOrderStatusCarwasherPhoneNumber.setVisibility(View.VISIBLE);
+                textViewOrderStatusCarwasherName.setText("Carwasher Name: "+carwasher.getName());
+                if(orders.getOrderStatus().equals("Completed")){
+                    textViewOrderStatusCarwasherPhoneNumber.setVisibility(View.GONE);
+                } else {
+                    final String phoneNumber = carwasher.getPhoneNumber();
+                    textViewOrderStatusCarwasherPhoneNumber.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+phoneNumber));
+                            startActivity(intent);
+                        }
+                    });
                 }
-            });
+
+            } else {
+                textViewOrderStatusCarwasherPhoneNumber.setVisibility(View.GONE);
+                textViewOrderStatusCarwasherName.setText("Waiting for your order confirmation!");
+            }
+
         }
         progressDialog.dismiss();
     }

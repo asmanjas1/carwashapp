@@ -21,6 +21,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.gson.Gson;
 
 import java.util.List;
 import java.util.Map;
@@ -53,6 +54,7 @@ public class SignupActivity extends AppCompatActivity {
     @InjectView(R.id.btn_sendOtp) Button btn_sendOtp;
     @InjectView(R.id.btn_verifyOtp) Button btn_verifyOtp;
 
+    Gson gson = new Gson();
     String phoneNumber, otp;
     FirebaseAuth auth;
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback;
@@ -73,17 +75,16 @@ public class SignupActivity extends AppCompatActivity {
         _signupButton.setVisibility(View.GONE);
         textViewDetailsMsg.setVisibility(View.GONE);
 
+
         btn_sendOtp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 phoneNumber = input_phoneNumberOtp.getText().toString();
-                PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                        phoneNumber,
-                        70,
-                        TimeUnit.SECONDS,
-                        SignupActivity.this,
-                        mCallback
-                );
+                if( phoneNumber != null){
+                    btn_sendOtp.setVisibility(View.GONE);
+                    checkForExistingPhoneNumber(phoneNumber);
+                }
+
             }
         });
 
@@ -91,8 +92,11 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 otp = input_otp.getText().toString();
-                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationCode, otp);
-                SigninWithPhone(credential);
+                if( otp != null){
+                    PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationCode, otp);
+                    SigninWithPhone(credential);
+                }
+
             }
         });
 
@@ -114,11 +118,14 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+                btn_sendOtp.setVisibility(View.VISIBLE);
+                setSignUpView();
                 Toast.makeText(SignupActivity.this,"verification completed",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
+                btn_sendOtp.setVisibility(View.VISIBLE);
                 Toast.makeText(SignupActivity.this,"verification failed",Toast.LENGTH_SHORT).show();
             }
 
@@ -127,6 +134,7 @@ public class SignupActivity extends AppCompatActivity {
                 super.onCodeSent(s, forceResendingToken);
                 verificationCode = s;
                 Toast.makeText(SignupActivity.this,"Code sent",Toast.LENGTH_SHORT).show();
+                btn_sendOtp.setVisibility(View.VISIBLE);
             }
         };
     }
@@ -190,11 +198,16 @@ public class SignupActivity extends AppCompatActivity {
         call.enqueue(new Callback<Map<String, Object>>() {
             @Override
             public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
-                response.body();
-                _loginLink.setText(response.toString());
-                Toast.makeText(getApplicationContext(),response.body().toString(),Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-                onSignupSuccess();
+                Map<String, Object> map = response.body();
+                if( map.get("resCode").equals(200.0)){
+                    Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                    onSignupSuccess();
+                } else {
+                    progressDialog.dismiss();
+                    onSignupFailed();
+                }
+
             }
 
             @Override
@@ -206,10 +219,80 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
+    public void checkForExistingPhoneNumber(String number){
+        RestInvokerService restInvokerService = RestClient.getClient().create(RestInvokerService.class);
+        Call<Map<String, Object>> call = restInvokerService.doLoginByNumber(number);
+        call.enqueue(new Callback<Map<String, Object>>() {
+            @Override
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                Map<String, Object> map = response.body();
+                if( map.get("resCode").equals(200.0)){
+                    String ss = map.get("data").toString();
+                    Consumer con = gson.fromJson(ss, Consumer.class);
+                    if(con.getConsumerId() == 0){
+                        sendOtp();
+                    } else {
+                        btn_sendOtp.setVisibility(View.VISIBLE);
+                        input_phoneNumberOtp.setError("Phone number already exist, please use other number.");
+                        return;
+                    }
+                } else {
+                    btn_sendOtp.setVisibility(View.VISIBLE);
+                    Toast.makeText(getApplicationContext(),"Some Error in creating account, try again after some time.",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                btn_sendOtp.setVisibility(View.VISIBLE);
+                Toast.makeText(getApplicationContext(),"Some Error in creating account, try again after some time.",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void sendOtp(){
+        phoneNumber = input_phoneNumberOtp.getText().toString();
+        if(phoneNumber != null){
+            PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                    phoneNumber,
+                    70,
+                    TimeUnit.SECONDS,
+                    SignupActivity.this,
+                    mCallback
+            );
+        }
+    }
+
     public void onSignupSuccess() {
-        finishFirebaseAuth();
-        setResult(RESULT_OK, null);
-        finish();
+        phoneNumber = input_phoneNumberOtp.getText().toString();
+        saveConsmerByPhone(phoneNumber);
+    }
+
+    public void saveConsmerByPhone(String number){
+        RestInvokerService restInvokerService = RestClient.getClient().create(RestInvokerService.class);
+        Call<Map<String, Object>> call = restInvokerService.doLoginByNumber(number);
+        call.enqueue(new Callback<Map<String, Object>>() {
+            @Override
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                Map<String, Object> map = response.body();
+                if( map.get("resCode").equals(200.0)){
+                    String ss = map.get("data").toString();
+                    SaveSharedPreference.setConsumerObj(SignupActivity.this, ss);
+                    SaveSharedPreference.setIsUserLoggedIn(SignupActivity.this);
+                    finishFirebaseAuth();
+                    setResult(RESULT_OK, null);
+                    Intent intent = new Intent(getApplicationContext(), ConsumerActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                btn_sendOtp.setVisibility(View.VISIBLE);
+                Toast.makeText(getApplicationContext(),"Some Error in creating account, try again after some time.",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void finishFirebaseAuth(){
