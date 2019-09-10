@@ -171,6 +171,7 @@ public class OrderActivity extends AppCompatActivity {
                 if( map.get("resCode").equals(200.0)){
                     progressDialog.dismiss();
                     Toast.makeText(getBaseContext(), "Order Placed successfully.", Toast.LENGTH_LONG).show();
+                    finish();
                 } else {
                     progressDialog.dismiss();
                     Toast.makeText(getBaseContext(), "Order Unsuccessfully.", Toast.LENGTH_LONG).show();

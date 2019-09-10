@@ -103,9 +103,10 @@ public class AddAddressActivity extends AppCompatActivity {
                     String ss = map.get("data").toString();
                     SaveSharedPreference.setConsumerObj(AddAddressActivity.this, ss);
                     Toast.makeText(getBaseContext(), "Address Added Successfully.", Toast.LENGTH_LONG).show();
+                    finish();
                 } else {
                     progressDialog.dismiss();
-                    Toast.makeText(getBaseContext(), "Error adding in vehicle.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Error adding in Address.", Toast.LENGTH_LONG).show();
                     return;
                 }
             }
@@ -113,6 +114,7 @@ public class AddAddressActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Map<String, Object>> call, Throwable t) {
                 progressDialog.dismiss();
+                Toast.makeText(getBaseContext(), "Error adding in Address.", Toast.LENGTH_LONG).show();
                 return;
             }
         });

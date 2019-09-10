@@ -136,6 +136,7 @@ public class CarActivity extends AppCompatActivity {
                     String ss = map.get("data").toString();
                     SaveSharedPreference.setConsumerObj(CarActivity.this, ss);
                     Toast.makeText(getBaseContext(), "Vehicle Added Successfully.", Toast.LENGTH_LONG).show();
+                    finish();
                 } else {
                     progressDialog.dismiss();
                     Toast.makeText(getBaseContext(), "Error adding in vehicle.", Toast.LENGTH_LONG).show();
@@ -146,6 +147,7 @@ public class CarActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Map<String, Object>> call, Throwable t) {
                 progressDialog.dismiss();
+                Toast.makeText(getBaseContext(), "Error adding in vehicle.", Toast.LENGTH_LONG).show();
                 return;
             }
         });
