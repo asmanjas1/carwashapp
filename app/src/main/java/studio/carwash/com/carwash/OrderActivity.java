@@ -32,9 +32,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OrderActivity extends AppCompatActivity {
-    TextView textViewCarName,textViewCarNumber,textViewSelectAddress,textViewSelectedAddress,
+    TextView textViewCarName,textViewCarNumber,textViewSelectAddress,textViewSelectedAddress,textViewOrderAmount,textViewReviewOrder,
     textViewAddressLineSelected,textViewAddressLocalityLandmarkSelected,textViewAddressTotalSelected;
-    CardView cardViewSelectedAddress;
+    CardView cardViewSelectedAddress,cardViewOrderSummary;
     Gson gson = new Gson();
     Button btnAddYourAddress,btn_placeOrder;
     List<ConsumerAddress> addressList;
@@ -66,10 +66,14 @@ public class OrderActivity extends AppCompatActivity {
         textViewAddressLineSelected = (TextView) findViewById(R.id.textViewAddressLineSelected);
         textViewAddressLocalityLandmarkSelected = (TextView) findViewById(R.id.textViewAddressLocalityLandmarkSelected);
         textViewAddressTotalSelected = (TextView) findViewById(R.id.textViewAddressTotalSelected);
+        textViewOrderAmount = (TextView) findViewById(R.id.textViewOrderAmount);
+        textViewReviewOrder = (TextView) findViewById(R.id.textViewReviewOrder);
 
         cardViewSelectedAddress = (CardView) findViewById(R.id.cardViewSelectedAddress);
         btn_placeOrder = (Button) findViewById(R.id.btn_placeOrder);
         recyclerViewAddress = (RecyclerView) findViewById(R.id.recyclerViewForConsumerAddressList);
+
+        cardViewOrderSummary = (CardView) findViewById(R.id.cardViewOrderSummary);
 
         if(vehicle != null){
             selectedVehicle = vehicle;
@@ -82,6 +86,8 @@ public class OrderActivity extends AppCompatActivity {
         textViewSelectedAddress.setVisibility(View.GONE);
         cardViewSelectedAddress.setVisibility(View.GONE);
         btn_placeOrder.setVisibility(View.GONE);
+        cardViewOrderSummary.setVisibility(View.GONE);
+        textViewReviewOrder.setVisibility(View.GONE);
 
         btnAddYourAddress = (Button) findViewById(R.id.btn_addYourAddress);
         btnAddYourAddress.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +144,9 @@ public class OrderActivity extends AppCompatActivity {
         textViewSelectedAddress.setVisibility(View.VISIBLE);
         cardViewSelectedAddress.setVisibility(View.VISIBLE);
         btn_placeOrder.setVisibility(View.VISIBLE);
+        cardViewOrderSummary.setVisibility(View.VISIBLE);
+        textViewReviewOrder.setVisibility(View.VISIBLE);
+        textViewOrderAmount.setText("Amount to be paid: "+ 100 + " Rs");
         selectedAddress = address;
         textViewAddressLineSelected.setText(address.getAddressLine());
         textViewAddressLocalityLandmarkSelected.setText(address.getLocality());

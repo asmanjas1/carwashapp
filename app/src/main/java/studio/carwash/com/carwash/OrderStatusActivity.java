@@ -48,6 +48,7 @@ public class OrderStatusActivity extends AppCompatActivity {
     @InjectView(R.id.orderStatusAddress) CardView orderStatusAddress;
     @InjectView(R.id.orderStatusCarwasher) CardView orderStatusCarwasher;
     @InjectView(R.id.order_summary) TextView order_summary;
+    @InjectView(R.id.btn_refresh_order) Button btn_refresh_order;
 
     Gson gson = new Gson();
     public  ProgressDialog progressDialog;
@@ -58,11 +59,17 @@ public class OrderStatusActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_status);
         ButterKnife.inject(this);
 
-        Intent intent = getIntent();
+        //loadOrderFromIntent();
+    }
+
+    public void loadOrderFromIntent(){
+        final Intent intent = getIntent();
         Orders order =null;
+        String orderId = null;
         if (intent != null) {
             String orderJson = intent.getStringExtra("orderSelected");
             order = gson.fromJson(orderJson, Orders.class);
+            orderId = intent.getStringExtra("orderSelectedId");
         }
 
         order_summary.setVisibility(View.GONE);
@@ -70,8 +77,28 @@ public class OrderStatusActivity extends AppCompatActivity {
         orderStatusVehicle.setVisibility(View.GONE);
         orderStatusAddress.setVisibility(View.GONE);
         orderStatusCarwasher.setVisibility(View.GONE);
+        btn_refresh_order.setVisibility(View.GONE);
 
-        loadAllDetailsForOrder(order.getOrderId());
+        if(orderId != null){
+            loadAllDetailsForOrder(Integer.valueOf(orderId));
+        } else {
+            loadAllDetailsForOrder(order.getOrderId());
+        }
+
+        btn_refresh_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String orderJson = intent.getStringExtra("orderSelected");
+                Orders order = gson.fromJson(orderJson, Orders.class);
+                String orderId = intent.getStringExtra("orderSelectedId");
+
+                if(orderId != null){
+                    loadAllDetailsForOrder(Integer.valueOf(orderId));
+                } else {
+                    loadAllDetailsForOrder(order.getOrderId());
+                }
+            }
+        });
     }
 
     public void loadAllDetailsForOrder(Integer id){
@@ -106,6 +133,7 @@ public class OrderStatusActivity extends AppCompatActivity {
         if(orders != null){
             order_summary.setVisibility(View.VISIBLE);
             orderStatusOrder.setVisibility(View.VISIBLE);
+            btn_refresh_order.setVisibility(View.VISIBLE);
             textViewOrderStatusId.setText("Order Id: "+String.valueOf(orders.getOrderId()));
             textViewOrderStatusDate.setText("Order Date: "+orders.getOrderDate());
             textViewOrderStatusAmount.setText("Order Amount: "+String.valueOf(orders.getOrderAmount()));
@@ -135,6 +163,7 @@ public class OrderStatusActivity extends AppCompatActivity {
                 textViewOrderStatusCarwasherName.setText("Carwasher Name: "+carwasher.getName());
                 if(orders.getOrderStatus().equals("Completed")){
                     textViewOrderStatusCarwasherPhoneNumber.setVisibility(View.GONE);
+                    btn_refresh_order.setVisibility(View.GONE);
                 } else {
                     final String phoneNumber = carwasher.getPhoneNumber();
                     textViewOrderStatusCarwasherPhoneNumber.setOnClickListener(new View.OnClickListener() {
@@ -148,10 +177,17 @@ public class OrderStatusActivity extends AppCompatActivity {
 
             } else {
                 textViewOrderStatusCarwasherPhoneNumber.setVisibility(View.GONE);
-                textViewOrderStatusCarwasherName.setText("Waiting for your order confirmation!");
+                textViewOrderStatusCarwasherName.setText("Waiting for your order confirmation! you will get notified once your" +
+                        " order is confirmed.");
             }
 
         }
         progressDialog.dismiss();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadOrderFromIntent();
     }
 }

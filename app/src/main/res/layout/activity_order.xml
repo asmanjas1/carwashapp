@@ -8,6 +8,17 @@
     tools:context="studio.carwash.com.carwash.OrderActivity"
     android:weightSum="1">
 
+    <TextView android:id="@+id/textViewReviewOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textCapWords"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="25dip"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:hint="Order Summary" />
+
     <TextView android:id="@+id/selected_car"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -141,6 +152,31 @@
                 android:text="Bengalore, Karnataka, 560066"
                 android:textColor="#000000"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:id="@+id/cardViewOrderSummary">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/textViewOrderAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="8dp"
+                android:text="Order Amount: 100 Rs"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="#000000" />
 
         </RelativeLayout>
 

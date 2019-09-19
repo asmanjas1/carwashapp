@@ -54,11 +54,12 @@ public class ConsumerOrdersInProgressAdapter extends RecyclerView.Adapter<Consum
     class OrderViewHolder extends RecyclerView.ViewHolder {
 
         Orders orderSelected;
-        TextView textViewOrderId;
+        TextView textViewOrderId,textViewOrderInProgress;
 
         public OrderViewHolder(View itemView) {
             super(itemView);
             textViewOrderId = (TextView) itemView.findViewById(R.id.textViewOrderID);
+            textViewOrderInProgress = (TextView) itemView.findViewById(R.id.textViewOrderInProgress);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -72,6 +73,7 @@ public class ConsumerOrdersInProgressAdapter extends RecyclerView.Adapter<Consum
 
         public void bindData(Orders order){
             orderSelected = order;
+            textViewOrderInProgress.setText(order.getOrderStatus());
             textViewOrderId.setText("Order ID: "+order.getOrderId());
         }
     }

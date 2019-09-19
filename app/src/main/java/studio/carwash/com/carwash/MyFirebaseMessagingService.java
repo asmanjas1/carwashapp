@@ -24,12 +24,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
         String title = "Order Status";
         String body = "Your recent order status is changed.. click to see details.";
         String sound = "default";
+        String orderId = null;
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d("Logs", "Message data payload: " + remoteMessage.getData());
             title = remoteMessage.getData().get("title");
             body = remoteMessage.getData().get("body");
             sound = remoteMessage.getData().get("sound");
+            orderId = remoteMessage.getData().get("orderId");
+            if(orderId != null){
+
+            }
         }
 
         // Check if message contains a notification payload.
@@ -39,12 +44,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
-        notifyUser(title,body,sound);
+        notifyUser(title,body,sound, orderId);
     }
 
-    public void notifyUser(String from, String notification, String sound){
+    public void notifyUser(String from, String notification, String sound, String orderId){
         MyNotificationManager manager = new MyNotificationManager(this);
-        manager.showSmallNotification(from,notification,sound, new Intent(this, ConsumerActivity.class));
+        Intent intent =  new Intent( this, OrderStatusActivity.class);
+        intent.putExtra("orderSelectedId",orderId);
+        manager.showSmallNotification(from,notification,sound, intent);
 
     }
 }
