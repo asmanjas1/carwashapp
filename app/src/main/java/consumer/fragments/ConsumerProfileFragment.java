@@ -59,6 +59,9 @@ public class ConsumerProfileFragment extends Fragment implements View.OnClickLis
             phoneNo.setText("Not Provided");
         }
 
+        btn_manage_address.setVisibility(View.GONE);
+        btn_edit_consumer_details.setVisibility(View.GONE);
+
         btn_manage_address.setOnClickListener(this);
         btn_edit_consumer_details.setOnClickListener(this);
 

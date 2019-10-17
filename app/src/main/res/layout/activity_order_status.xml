@@ -194,16 +194,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:text="Carwasher Name:"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
             <Button
                 android:id="@+id/textViewOrderStatusCarwasherPhoneNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="45dp"
                 android:layout_below="@id/textViewOrderStatusCarwasherName"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="8dp"
                 android:text="Make a call"
                 android:textColor="@color/colorWhite"
                 android:background="@color/colorPrimary"

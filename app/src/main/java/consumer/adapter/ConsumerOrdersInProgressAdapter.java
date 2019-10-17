@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,11 +56,14 @@ public class ConsumerOrdersInProgressAdapter extends RecyclerView.Adapter<Consum
 
         Orders orderSelected;
         TextView textViewOrderId,textViewOrderInProgress;
+        ImageView imageView;
 
         public OrderViewHolder(View itemView) {
             super(itemView);
             textViewOrderId = (TextView) itemView.findViewById(R.id.textViewOrderID);
             textViewOrderInProgress = (TextView) itemView.findViewById(R.id.textViewOrderInProgress);
+            imageView = (ImageView) itemView.findViewById(R.id.imageView);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -73,7 +77,16 @@ public class ConsumerOrdersInProgressAdapter extends RecyclerView.Adapter<Consum
 
         public void bindData(Orders order){
             orderSelected = order;
-            textViewOrderInProgress.setText(order.getOrderStatus());
+            String orderStatus = order.getOrderStatus();
+            if(orderStatus.equals("Completed")){
+                imageView.setBackgroundResource(R.mipmap.order_complete);
+            } else if(orderStatus.equals("New")){
+                orderStatus = "New !";
+                imageView.setBackgroundResource(R.mipmap.order_inprogress);
+            } else {
+                imageView.setBackgroundResource(R.mipmap.order_inprogress);
+            }
+            textViewOrderInProgress.setText(orderStatus);
             textViewOrderId.setText("Order ID: "+order.getOrderId());
         }
     }

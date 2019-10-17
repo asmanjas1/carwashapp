@@ -59,7 +59,7 @@ public class OrderStatusActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_status);
         ButterKnife.inject(this);
 
-        //loadOrderFromIntent();
+        loadOrderFromIntent();
     }
 
     public void loadOrderFromIntent(){
@@ -188,6 +188,6 @@ public class OrderStatusActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadOrderFromIntent();
+        //loadOrderFromIntent();
     }
 }

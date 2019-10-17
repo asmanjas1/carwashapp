@@ -1,13 +1,10 @@
 package consumer.fragments;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,24 +13,19 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import beans.Consumer;
 import beans.Orders;
-import consumer.adapter.ConsumerCarAdapter;
-import consumer.adapter.ConsumerOrdersCompletedAdapter;
 import consumer.adapter.ConsumerOrdersInProgressAdapter;
 import resources.CarConstant;
-import resources.DummyResponseResultFromRest;
 import resources.RestClient;
 import resources.RestInvokerService;
 import resources.SaveSharedPreference;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import studio.carwash.com.carwash.ConsumerActivity;
-import studio.carwash.com.carwash.MainActivity;
 import studio.carwash.com.carwash.R;
 
 /**
@@ -42,9 +34,8 @@ import studio.carwash.com.carwash.R;
 
 public class ConsumerOrdersFragment extends Fragment {
 
-    RecyclerView recyclerViewInProgressOrders, recyclerViewCompletedOrders;
-    List<Orders> inProgressOrdersList = new ArrayList<>();
-    List<Orders> completedOrdersList = new ArrayList<>();
+    RecyclerView recyclerViewInProgressOrders;
+    List<Orders> ordersList = new ArrayList<>();
     ProgressDialog progressDialog;
     public static Gson gson = new Gson();
 
@@ -70,10 +61,6 @@ public class ConsumerOrdersFragment extends Fragment {
         recyclerViewInProgressOrders = (RecyclerView) view.findViewById(R.id.recyclerViewForInProgressOrders);
         recyclerViewInProgressOrders.setHasFixedSize(true);
         recyclerViewInProgressOrders.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        recyclerViewCompletedOrders = (RecyclerView) view.findViewById(R.id.recyclerViewForCompletedOrders);
-        recyclerViewCompletedOrders.setHasFixedSize(true);
-        recyclerViewCompletedOrders.setLayoutManager(new LinearLayoutManager(getContext()));
 
         loadOrders();
         return view;
@@ -108,35 +95,22 @@ public class ConsumerOrdersFragment extends Fragment {
     public void processOrderResponse(List<String> list){
         for(String ss: list){
             Orders order = gson.fromJson(ss, Orders.class);
-            if(order.getOrderStatus().equals("In Progress") || order.getOrderStatus().equals("New")){
-                inProgressOrdersList.add(order);
-            } else if(order.getOrderStatus().equals("Completed")){
-                completedOrdersList.add(order);
-            }
+            ordersList.add(order);
         }
+
+        Collections.reverse(ordersList);
         loadInProgressOrders();
-        loadCompletedOrders();
     }
 
     public void loadInProgressOrders() {
-        if(inProgressOrdersList != null && inProgressOrdersList.size()>0){
+        if(ordersList != null && ordersList.size()>0){
             progressDialog.dismiss();
-            ConsumerOrdersInProgressAdapter consumerCarAdapter = new ConsumerOrdersInProgressAdapter(getContext(),inProgressOrdersList);
+            ConsumerOrdersInProgressAdapter consumerCarAdapter = new ConsumerOrdersInProgressAdapter(getContext(),ordersList);
             recyclerViewInProgressOrders.setAdapter(consumerCarAdapter);
         }else {
             progressDialog.dismiss();
-            Toast.makeText(getContext(),"Not able to fetch In Progress order list",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"Not able to fetch In order list",Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void loadCompletedOrders(){
-        if(completedOrdersList != null && completedOrdersList.size()>0){
-            progressDialog.dismiss();
-            ConsumerOrdersCompletedAdapter consumerCarAdapter = new ConsumerOrdersCompletedAdapter(getContext(),completedOrdersList);
-            recyclerViewCompletedOrders.setAdapter(consumerCarAdapter);
-        }else {
-            progressDialog.dismiss();
-            Toast.makeText(getContext(),"Not able to fetch Completed order list",Toast.LENGTH_SHORT).show();
-        }
-    }
 }
