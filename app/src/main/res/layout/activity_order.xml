@@ -16,8 +16,9 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="10dp"
         android:textSize="25dip"
+        android:textColor="#FF3F51B5"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:hint="Order Summary" />
+        android:text="Order Summary" />
 
     <TextView android:id="@+id/selected_car"
         android:layout_width="match_parent"
@@ -27,7 +28,8 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="10dp"
         android:textSize="20dip"
-        android:hint="Selected Car" />
+        android:textColor="#FF3F8EB5"
+        android:text="Selected Car" />
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -91,14 +93,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@color/colorPrimary"
-        android:textColor="@color/colorWhite"
         android:text="Add New Address"
-        />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewForConsumerAddressList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:textColor="@color/colorWhite" />
 
     <TextView android:id="@+id/textViewSelected_Address"
         android:layout_width="match_parent"
@@ -108,7 +104,13 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="10dp"
         android:textSize="20dip"
-        android:hint="Selected Address" />
+        android:textColor="#FF3F8EB5"
+        android:text="Selected Address" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewForConsumerAddressList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -174,8 +176,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:text="Order Amount: 100 Rs"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse"
                 android:textColor="#000000" />
 
         </RelativeLayout>

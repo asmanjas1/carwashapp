@@ -136,7 +136,7 @@ public class OrderStatusActivity extends AppCompatActivity {
             btn_refresh_order.setVisibility(View.VISIBLE);
             textViewOrderStatusId.setText("Order Id: "+String.valueOf(orders.getOrderId()));
             textViewOrderStatusDate.setText("Order Date: "+orders.getOrderDate());
-            textViewOrderStatusAmount.setText("Order Amount: "+String.valueOf(orders.getOrderAmount()));
+            textViewOrderStatusAmount.setText("Order Amount: ₹ "+String.valueOf(orders.getOrderAmount()));
             textViewOrderStatusStatus.setText("Order Status: "+orders.getOrderStatus());
             textViewOrderStatusPaymentStatus.setText("Payment Status: "+orders.getOrderPaymentStatus());
         }

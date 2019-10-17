@@ -242,7 +242,7 @@ public class AddAddressActivity extends AppCompatActivity {
                 addressCity.setText(ad.getLocality());
                 addressState.setText(ad.getAdminArea());
                 String locality = ad.getAddressLine(0);
-                String locality1 = locality.substring(0,locality.indexOf(ad.getLocality())-1);
+                String locality1 = locality.substring(0,locality.indexOf(ad.getLocality()) -2);
                 addressLocality.setText(locality1);
                 list.add(ad.getLocality());
                 list.add(ad.getCountryCode());

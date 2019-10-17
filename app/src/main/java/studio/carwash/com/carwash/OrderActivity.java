@@ -146,7 +146,7 @@ public class OrderActivity extends AppCompatActivity {
         btn_placeOrder.setVisibility(View.VISIBLE);
         cardViewOrderSummary.setVisibility(View.VISIBLE);
         textViewReviewOrder.setVisibility(View.VISIBLE);
-        textViewOrderAmount.setText("Amount to be paid: "+ 100 + " Rs");
+        textViewOrderAmount.setText("Amount to be paid: ₹ "+ 100 );
         selectedAddress = address;
         textViewAddressLineSelected.setText(address.getAddressLine());
         textViewAddressLocalityLandmarkSelected.setText(address.getLocality());
@@ -161,8 +161,8 @@ public class OrderActivity extends AppCompatActivity {
         Consumer con = new Consumer();
         con.setConsumerId(SaveSharedPreference.getConsumerFromGson(this).getConsumerId());
         orders.setConsumer(con);
-        orders.setOrderAmount(30d);
-        orders.setOrderPaymentStatus("pending");
+        orders.setOrderAmount(100d);
+        orders.setOrderPaymentStatus("Pending");
         orders.setOrderStatus("New");
 
         orders.setOrderAddressId(selectedAddress.getAddressId());
