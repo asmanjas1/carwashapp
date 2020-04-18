@@ -17,10 +17,8 @@ import studio.carwash.com.carwash.R;
  * Created by Dell on 8/14/2019.
  */
 
-public class ConsumerProfileFragment extends Fragment implements View.OnClickListener{
+public class ConsumerProfileFragment extends Fragment{
 
-    TextView userName, emailID, phoneNo;
-    Button btn_manage_address, btn_edit_consumer_details;
 
     public ConsumerProfileFragment(){}
 
@@ -38,50 +36,10 @@ public class ConsumerProfileFragment extends Fragment implements View.OnClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getActivity().setTitle("Profile");
+        getActivity().setTitle("Subscription");
 
         View v = inflater.inflate(R.layout.consumer_profile_fragment, container, false);
-
-        userName = (TextView) v.findViewById (R.id.userName);
-        emailID = (TextView) v.findViewById (R.id.emailID);
-        phoneNo = (TextView) v.findViewById (R.id.phoneNo);
-        btn_manage_address = (Button) v.findViewById(R.id.btn_manage_address);
-        btn_edit_consumer_details = (Button) v.findViewById(R.id.btn_edit_consumer_details);
-
-        Consumer bean = SaveSharedPreference.getConsumerFromGson(getContext());
-        if(bean!=null){
-            userName.setText(bean.getName());
-            emailID.setText(bean.getEmail());
-            phoneNo.setText(bean.getPhoneNumber());
-        }else{
-            userName.setText("Not Provided");
-            emailID.setText("Not Provided");
-            phoneNo.setText("Not Provided");
-        }
-
-        btn_manage_address.setVisibility(View.GONE);
-        btn_edit_consumer_details.setVisibility(View.GONE);
-
-        btn_manage_address.setOnClickListener(this);
-        btn_edit_consumer_details.setOnClickListener(this);
-
         return v;
-    }
-
-    @Override
-    public void onClick(View v) {
-        Fragment fragment = null;
-        switch (v.getId()) {
-            case R.id.btn_manage_address:
-                fragment = EditAddressFragment.newInstance();
-                replaceFragment(fragment);
-                break;
-
-            case R.id.btn_edit_consumer_details:
-                fragment = EditDetailsFragment.newInstance();
-                replaceFragment(fragment);
-                break;
-        }
     }
 
     public void replaceFragment(Fragment fragment) {

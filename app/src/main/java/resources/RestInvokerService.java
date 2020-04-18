@@ -11,7 +11,9 @@ import beans.Orders;
 import beans.Vehicle;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -44,5 +46,17 @@ public interface RestInvokerService {
 
     @GET("/consumerController/doLoginByNumber/{phoneNumber}")
     Call<Map<String, Object>> doLoginByNumber(@Path("phoneNumber") String phoneNumber);
+
+    @HTTP(method = "DELETE", path = "/consumerController/deleteAddress", hasBody = true)
+    Call<Map<String, Object>> deleteAddress(@Body ConsumerAddress consumerAddress);
+
+    @HTTP(method = "DELETE", path = "/consumerController/deleteVehicle", hasBody = true)
+    Call<Map<String, Object>> deleteVehicle(@Body Vehicle vehicle);
+
+    @GET("/consumerController/getConsumerById/{consumerId}")
+    Call<Map<String, Object>> getConsumerById(@Path("consumerId") Integer consumerId);
+
+    @GET("/orderController/getOrderValue/{vehicleType}")
+    Call<Map<String, Object>> getOrderValue(@Path("vehicleType") String vehicleType);
 
 }

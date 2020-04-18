@@ -52,13 +52,23 @@ public class ConsumerAddressAdapter extends RecyclerView.Adapter<ConsumerAddress
     class OrderViewHolder extends RecyclerView.ViewHolder {
 
         ConsumerAddress addressSelected;
-        TextView textViewAddressLine,textViewAddressLocalityLandmark,textViewAddressTotal;
+        TextView textViewAddressLine,textViewAddressLocalityLandmark,textViewAddressTotal, delete_Address;
 
         public OrderViewHolder(final View itemView) {
             super(itemView);
             textViewAddressLine = (TextView) itemView.findViewById(R.id.textViewAddressLine);
             textViewAddressLocalityLandmark = (TextView) itemView.findViewById(R.id.textViewAddressLocalityLandmark);
             textViewAddressTotal = (TextView) itemView.findViewById(R.id.textViewAddressTotal);
+            delete_Address = (TextView) itemView.findViewById(R.id.delete_Address);
+
+            delete_Address.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mCtx instanceof OrderActivity){
+                        ((OrderActivity) mCtx).deleteAddress(addressSelected);
+                    }
+                }
+            });
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

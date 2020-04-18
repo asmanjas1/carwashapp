@@ -32,8 +32,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OrderActivity extends AppCompatActivity {
-    TextView textViewCarName,textViewCarNumber,textViewSelectAddress,textViewSelectedAddress,textViewOrderAmount,textViewReviewOrder,
-    textViewAddressLineSelected,textViewAddressLocalityLandmarkSelected,textViewAddressTotalSelected;
+    TextView textViewCarName,textViewCarNumber,textViewSelectedAddress,textViewOrderAmount,textViewReviewOrder,
+    textViewAddressLineSelected,textViewAddressLocalityLandmarkSelected,textViewAddressTotalSelected, no_address, textViewPriceDetail;
     CardView cardViewSelectedAddress,cardViewOrderSummary;
     Gson gson = new Gson();
     Button btnAddYourAddress,btn_placeOrder;
@@ -41,7 +41,7 @@ public class OrderActivity extends AppCompatActivity {
     RecyclerView recyclerViewAddress;
     ConsumerAddress selectedAddress;
     Vehicle selectedVehicle;
-
+    Double orderAmount;
 
     public  ProgressDialog progressDialog;
 
@@ -49,7 +49,7 @@ public class OrderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
-        this.setTitle("Order");
+        this.setTitle("Select Address");
 
         Intent intent = getIntent();
         Vehicle vehicle =null;
@@ -60,8 +60,9 @@ public class OrderActivity extends AppCompatActivity {
 
         textViewCarName = (TextView) findViewById(R.id.textViewCarName);
         textViewCarNumber = (TextView) findViewById(R.id.textViewCarNumber);
-        textViewSelectAddress = (TextView) findViewById(R.id.select_address);
         textViewSelectedAddress = (TextView) findViewById(R.id.textViewSelected_Address);
+        no_address = (TextView) findViewById(R.id.no_address);
+        textViewPriceDetail = (TextView) findViewById(R.id.textViewPriceDetail);
 
         textViewAddressLineSelected = (TextView) findViewById(R.id.textViewAddressLineSelected);
         textViewAddressLocalityLandmarkSelected = (TextView) findViewById(R.id.textViewAddressLocalityLandmarkSelected);
@@ -87,7 +88,9 @@ public class OrderActivity extends AppCompatActivity {
         cardViewSelectedAddress.setVisibility(View.GONE);
         btn_placeOrder.setVisibility(View.GONE);
         cardViewOrderSummary.setVisibility(View.GONE);
+        textViewPriceDetail.setVisibility(View.GONE);
         textViewReviewOrder.setVisibility(View.GONE);
+        no_address.setVisibility(View.GONE);
 
         btnAddYourAddress = (Button) findViewById(R.id.btn_addYourAddress);
         btnAddYourAddress.setOnClickListener(new View.OnClickListener() {
@@ -125,32 +128,60 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(addressList != null && addressList.size()>0){
+                    recyclerViewAddress.setVisibility(View.VISIBLE);
                     progressDialog.dismiss();
                     ConsumerAddressAdapter consumerAddressAdapter = new ConsumerAddressAdapter(OrderActivity.this,addressList);
                     recyclerViewAddress.setAdapter(consumerAddressAdapter);
+                    no_address.setVisibility(View.GONE);
                 }else {
+                    recyclerViewAddress.setVisibility(View.GONE);
+                    no_address.setVisibility(View.VISIBLE);
                     progressDialog.dismiss();
-                    Toast.makeText(OrderActivity.this,"Not able to fetch Order List",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OrderActivity.this,"Not able to fetch address List",Toast.LENGTH_SHORT).show();
                 }
             }
         }, 100);
     }
 
     public void addressSelected(ConsumerAddress address) {
+        getOrderValue();
+        this.setTitle("Order Summary");
         recyclerViewAddress.setVisibility(View.GONE);
-        textViewSelectAddress.setVisibility(View.GONE);
         btnAddYourAddress.setVisibility(View.GONE);
 
         textViewSelectedAddress.setVisibility(View.VISIBLE);
         cardViewSelectedAddress.setVisibility(View.VISIBLE);
         btn_placeOrder.setVisibility(View.VISIBLE);
         cardViewOrderSummary.setVisibility(View.VISIBLE);
-        textViewReviewOrder.setVisibility(View.VISIBLE);
-        textViewOrderAmount.setText("Amount to be paid: ₹ "+ 100 );
+        textViewPriceDetail.setVisibility(View.VISIBLE);
+       // textViewReviewOrder.setVisibility(View.VISIBLE);
+        //textViewOrderAmount.setText("Order Value: ₹ "+ 200 );
         selectedAddress = address;
         textViewAddressLineSelected.setText(address.getAddressLine());
         textViewAddressLocalityLandmarkSelected.setText(address.getLocality());
         textViewAddressTotalSelected.setText(address.getCity()+" "+address.getState()+" "+address.getPincode());
+    }
+
+    public void getOrderValue(){
+        RestInvokerService restInvokerService = RestClient.getClient().create(RestInvokerService.class);
+        Call<Map<String, Object>> call = restInvokerService.getOrderValue("car");
+        call.enqueue(new Callback<Map<String, Object>>() {
+            @Override
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                Map<String, Object> map = response.body();
+                if( map.get("resCode").equals(200.0)){
+                    orderAmount = (Double) map.get("data");
+                    textViewOrderAmount.setText("Order Value: ₹ "+ orderAmount + " /-");
+                } else {
+                    Toast.makeText(getBaseContext(), "Error in fetching order amount.", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                progressDialog.dismiss();
+                return;
+            }
+        });
     }
 
     public void placeOrder() {
@@ -161,7 +192,7 @@ public class OrderActivity extends AppCompatActivity {
         Consumer con = new Consumer();
         con.setConsumerId(SaveSharedPreference.getConsumerFromGson(this).getConsumerId());
         orders.setConsumer(con);
-        orders.setOrderAmount(100d);
+        orders.setOrderAmount(orderAmount);
         orders.setOrderPaymentStatus("Pending");
         orders.setOrderStatus("New");
 
@@ -193,5 +224,55 @@ public class OrderActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void deleteAddress(ConsumerAddress consumerAddress){
+        RestInvokerService restInvokerService = RestClient.getClient().create(RestInvokerService.class);
+        Call<Map<String, Object>> call = restInvokerService.deleteAddress(consumerAddress);
+        call.enqueue(new Callback<Map<String, Object>>() {
+            @Override
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                Map<String, Object> map = response.body();
+                if( map.get("resCode").equals(200.0)){
+                    Toast.makeText(getBaseContext(), "Address deleted Successfully.", Toast.LENGTH_LONG).show();
+                    refreshConsumer();
+                } else {
+                    Toast.makeText(getBaseContext(), "Error in deleting Address.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                Toast.makeText(getBaseContext(), "Error in deleting vehicle.", Toast.LENGTH_LONG).show();
+                return;
+            }
+        });
+    }
+
+    public void refreshConsumer(){
+        RestInvokerService restInvokerService = RestClient.getClient().create(RestInvokerService.class);
+        Consumer consumer = SaveSharedPreference.getConsumerFromGson(this);
+        Call<Map<String, Object>> call = restInvokerService.getConsumerById(consumer.getConsumerId());
+        call.enqueue(new Callback<Map<String, Object>>() {
+            @Override
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                Map<String, Object> map = response.body();
+                if( map.get("resCode").equals(200.0)){
+                    String ss = map.get("data").toString();
+                    SaveSharedPreference.setConsumerObj(OrderActivity.this, ss);
+                    loadConsumerAddress();
+                } else {
+                    Toast.makeText(getBaseContext(), "Error in refreshConsumer.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                Toast.makeText(getBaseContext(), "Error in refreshConsumer.", Toast.LENGTH_LONG).show();
+                return;
+            }
+        });
     }
 }

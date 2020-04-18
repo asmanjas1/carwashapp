@@ -27,9 +27,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="10dp"
-        android:textSize="20dip"
+        android:textSize="14dip"
         android:textColor="#FF3F8EB5"
-        android:text="Selected Car" />
+        android:text="Selected Vehicle" />
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -74,17 +74,6 @@
 
     </android.support.v7.widget.CardView>
 
-    <TextView
-        android:id="@+id/select_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="8dp"
-        android:hint="Select address from below list or add new address."
-        android:textSize="18dip" />
-
     <Button
         android:id="@+id/btn_addYourAddress"
         android:layout_width="match_parent"
@@ -96,6 +85,18 @@
         android:text="Add New Address"
         android:textColor="@color/colorWhite" />
 
+    <TextView
+        android:id="@+id/no_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="8dp"
+        android:hint="No Address Found."
+        android:textSize="18dip" />
+
     <TextView android:id="@+id/textViewSelected_Address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -103,7 +104,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="10dp"
-        android:textSize="20dip"
+        android:textSize="14dip"
         android:textColor="#FF3F8EB5"
         android:text="Selected Address" />
 
@@ -159,6 +160,17 @@
 
     </android.support.v7.widget.CardView>
 
+    <TextView android:id="@+id/textViewPriceDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textCapWords"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="14dip"
+        android:textColor="#FF3F8EB5"
+        android:text="Order Amount" />
+
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -177,8 +189,21 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Order Amount: 100 Rs"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large.Inverse"
+                android:textSize="20sp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/textViewTax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_below="@+id/textViewOrderAmount"
+                android:textStyle="italic"
+                android:text="*Inclusive all taxes."
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:textColor="#000000" />
 
         </RelativeLayout>
@@ -195,7 +220,7 @@
         android:layout_marginRight="5dp"
         android:background="@color/colorPrimary"
         android:textColor="@color/colorWhite"
-        android:text="Make an Order"
+        android:text="Place Order"
         />
 
 </LinearLayout>

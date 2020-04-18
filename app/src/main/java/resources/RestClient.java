@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestClient {
 
-    public static final String BASE_URL = "https://carproject-248212.appspot.com";
+    public static final String BASE_URL = "https://alphaa-267206.appspot.com";
     private static Retrofit retrofit = null;
 
 

@@ -9,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
+import beans.Consumer;
 import resources.SaveSharedPreference;
 import studio.carwash.com.carwash.ConsumerActivity;
 import studio.carwash.com.carwash.MainActivity;
@@ -23,6 +25,8 @@ public class ConsumerSettingFragment extends Fragment {
 
     private static final String CONTACT_EMAIL = "asmanjaskumar@gmail.com";
     Button logOutButton, btn_Email;
+
+    TextView userName, emailID, phoneNo;
 
     public static ConsumerSettingFragment newInstance() {
         ConsumerSettingFragment fragment;
@@ -38,7 +42,7 @@ public class ConsumerSettingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getActivity().setTitle("Settings & More");
+        getActivity().setTitle("Account");
 
 
         View v = inflater.inflate(R.layout.consumer_setting_fragment, container, false);
@@ -67,6 +71,24 @@ public class ConsumerSettingFragment extends Fragment {
             }
         });
 
+        setUpUserDetails(v);
         return v;
+    }
+
+    public void setUpUserDetails(View  v){
+        userName = (TextView) v.findViewById (R.id.userName);
+        emailID = (TextView) v.findViewById (R.id.emailID);
+        phoneNo = (TextView) v.findViewById (R.id.phoneNo);
+
+        Consumer bean = SaveSharedPreference.getConsumerFromGson(getContext());
+        if(bean!=null){
+            userName.setText(bean.getName());
+            emailID.setText(bean.getEmail());
+            phoneNo.setText(bean.getPhoneNumber());
+        }else{
+            userName.setText("Not Provided");
+            emailID.setText("Not Provided");
+            phoneNo.setText("Not Provided");
+        }
     }
 }

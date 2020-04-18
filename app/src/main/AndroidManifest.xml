@@ -39,7 +39,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".OrderStatusActivity"></activity>
+        <activity android:name=".OrderStatusActivity" />
+        <activity android:name=".ConsumerOrderStartActivity"></activity>
     </application>
 
 </manifest>

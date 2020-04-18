@@ -7,9 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -20,6 +22,7 @@ import java.util.List;
 import beans.Vehicle;
 import consumer.fragments.ConsumerHomeFragment;
 import studio.carwash.com.carwash.ConsumerActivity;
+import studio.carwash.com.carwash.ConsumerOrderStartActivity;
 import studio.carwash.com.carwash.MainActivity;
 import studio.carwash.com.carwash.OrderActivity;
 import studio.carwash.com.carwash.R;
@@ -67,31 +70,30 @@ public class ConsumerCarAdapter extends RecyclerView.Adapter<ConsumerCarAdapter.
 
         Vehicle vehicleSelected;
         TextView textViewCarName,textViewCarNumber;
-       /* ImageView imageView;*/
+        ImageView delete_car;
 
         public OrderViewHolder(View itemView) {
             super(itemView);
             textViewCarName = (TextView) itemView.findViewById(R.id.textViewCarName);
             textViewCarNumber = (TextView) itemView.findViewById(R.id.textViewCarNumber);
-           /* imageView = (ImageView) itemView.findViewById(R.id.imageView);*/
+            delete_car = (ImageView) itemView.findViewById(R.id.delete_car);
+
+            delete_car.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("mytag",vehicleSelected.getVehicleName());
+                    if(mCtx instanceof ConsumerOrderStartActivity ){
+                        ((ConsumerOrderStartActivity) mCtx).deleteVehicle(vehicleSelected);
+                    }
+                }
+            });
            itemView.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
-                   Intent intent =  new Intent((ConsumerActivity) mCtx, OrderActivity.class);
-
-                   //Fragment fragment = new ConsumerHomeFragment();
-                   //FragmentManager fragmentManager = ((ConsumerActivity) mCtx).getSupportFragmentManager();// this is basically context of the class
-                   //FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                   Intent intent =  new Intent( mCtx, OrderActivity.class);
                    String vehicleJson = gson.toJson(vehicleSelected);
                    intent.putExtra("vehicleSelected",vehicleJson);
-                   Bundle bundle=new Bundle(); //key and value
-                  // bundle.putSerializable("vehicleSelected",vehicleSelected);//set Fragmentclass Arguments
-                   //intent.putExtras(bundle);
-                   ((ConsumerActivity)mCtx).startActivity(intent);
-                  // fragment.setArguments(bundle);
-                   //fragmentTransaction.replace(R.id.frame_layout_consumer, fragment);
-                   //fragmentTransaction.addToBackStack(null);
-                   //fragmentTransaction.commit();
+                   mCtx.startActivity(intent);
                }
            });
         }

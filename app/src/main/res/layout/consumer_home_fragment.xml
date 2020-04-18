@@ -3,33 +3,98 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-    android:id="@+id/btn_addNewCar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="14dp"
-    android:layout_marginBottom="14dp"
-    android:layout_marginLeft="14dp"
-    android:layout_marginRight="14dp"
-    android:background="@color/colorPrimary"
-    android:textColor="@color/colorWhite"
-    android:text="Add New Car"
-    />
-
-    <TextView
-        android:id="@+id/textView_booknow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Book your carwasher! please select a car from below list or add new car."
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
-        android:layout_marginBottom="14dp"
-        android:textColor="@color/cardview_dark_background"
-        android:textSize="18sp"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewForConsumerCarList"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:id="@+id/homeCardId"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="20sp"
+                    android:text="Waterless Carwash" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="20sp"
+                    android:text="You can book your carwash service from here, a carwasher will be assigned to your service. Get MEMBERSHIP to get discount." />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="20sp"
+                    android:textAlignment="center"
+                    android:text="Services" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="18sp"
+                    android:text="Exterior cleaning" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="18sp"
+                    android:text="Interior cleaning" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="18sp"
+                    android:text="Tyre and wheel cleaning" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="18sp"
+                    android:text="Dashboard cleaning" />
+            </TableRow>
+            <TableRow>
+                <Button
+                    android:id="@+id/btn_book_order"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="14dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:background="@color/colorPrimary"
+                    android:textColor="@color/colorWhite"
+                    android:text="Book Now"
+                    />
+            </TableRow>
+
+        </TableLayout>
+
+    </android.support.v7.widget.CardView>
+
 </LinearLayout>

@@ -7,42 +7,140 @@
     tools:context="consumer.fragments.ConsumerSettingFragment"
     android:weightSum="1">
 
-    <TextView
-        android:id="@+id/tempID"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Submit Your Query To Us "
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:textSize="20sp"/>
-    <TextView
-        android:id="@+id/tempID1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Email us to: asmanjaskumar@gmail.com "
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="50dp"
-        android:textSize="18sp"/>
+        android:id="@+id/userdetailsId"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp">
 
-    <Button
-        android:id="@+id/btn_contact_us_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tempID1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="Send Mail" />
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
 
-    <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="wrap_content"
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="20sp"
+                    android:text="Name:" />
+                <TextView
+                    android:id="@+id/userName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="18sp"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="20sp"
+                    android:text="Email ID:" />
+                <TextView
+                    android:id="@+id/emailID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="18sp"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="20sp"
+                    android:text="Phone No:" />
+                <TextView
+                    android:id="@+id/phoneNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="18sp"
+                    android:text="" />
+            </TableRow>
+
+        </TableLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_contact_us_email"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="100dp"
-        android:text="LogOut" />
+        android:id="@+id/accountOptionsCardId"
+        android:layout_below="@+id/userdetailsId"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="20sp"
+                    android:text="Rate our app!" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="20sp"
+                    android:text="About" />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="20sp"
+                    android:text="Contact us:" />
+                <Button
+                    android:id="@+id/btn_contact_us_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/userdetailsId"
+                    android:text="Send Mail" />
+            </TableRow>
+
+            <TableRow>
+                <Button
+                    android:id="@+id/btn_logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btn_contact_us_email"
+                    android:layout_centerHorizontal="true"
+                    android:text="LogOut" />
+            </TableRow>
+
+        </TableLayout>
+
+    </android.support.v7.widget.CardView>
+
+
 
 </RelativeLayout>

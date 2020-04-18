@@ -47,7 +47,7 @@ public class OrderStatusActivity extends AppCompatActivity {
     @InjectView(R.id.orderStatusVehicle) CardView orderStatusVehicle;
     @InjectView(R.id.orderStatusAddress) CardView orderStatusAddress;
     @InjectView(R.id.orderStatusCarwasher) CardView orderStatusCarwasher;
-    @InjectView(R.id.order_summary) TextView order_summary;
+    //@InjectView(R.id.order_summary) TextView order_summary;
     @InjectView(R.id.btn_refresh_order) Button btn_refresh_order;
 
     Gson gson = new Gson();
@@ -58,6 +58,7 @@ public class OrderStatusActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_status);
         ButterKnife.inject(this);
+        this.setTitle("Order Summary");
 
         loadOrderFromIntent();
     }
@@ -72,7 +73,7 @@ public class OrderStatusActivity extends AppCompatActivity {
             orderId = intent.getStringExtra("orderSelectedId");
         }
 
-        order_summary.setVisibility(View.GONE);
+        //order_summary.setVisibility(View.GONE);
         orderStatusOrder.setVisibility(View.GONE);
         orderStatusVehicle.setVisibility(View.GONE);
         orderStatusAddress.setVisibility(View.GONE);
@@ -102,6 +103,8 @@ public class OrderStatusActivity extends AppCompatActivity {
     }
 
     public void loadAllDetailsForOrder(Integer id){
+        final long time1 = System.currentTimeMillis();
+        Log.d("sssasasa", String.valueOf(time1));
         progressDialog =  CarConstant.getProgressDialog(this,"Loading...");
         progressDialog.show();
         RestInvokerService restInvokerService = RestClient.getClient().create(RestInvokerService.class);
@@ -111,6 +114,7 @@ public class OrderStatusActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
                 Map<String, Object> map = response.body();
+                Log.d("sssasasa", String.valueOf(System.currentTimeMillis() - time1));
                 Log.d("akskasasa",map.toString());
                 if( map.get("resCode").equals(200.0)){
                     String ss = map.get("data").toString();
@@ -131,7 +135,7 @@ public class OrderStatusActivity extends AppCompatActivity {
 
     public void setAllFields(Orders orders){
         if(orders != null){
-            order_summary.setVisibility(View.VISIBLE);
+            //order_summary.setVisibility(View.VISIBLE);
             orderStatusOrder.setVisibility(View.VISIBLE);
             btn_refresh_order.setVisibility(View.VISIBLE);
             textViewOrderStatusId.setText("Order Id: "+String.valueOf(orders.getOrderId()));

@@ -7,13 +7,13 @@
     <item
         android:id="@+id/action_item2"
         android:icon="@drawable/icons_orders"
-        android:title="Orders"/>
+        android:title="My Bookings"/>
     <item
         android:id="@+id/action_item3"
-        android:icon="@drawable/icons_profile"
-        android:title="Profile"/>
+        android:icon="@drawable/icons_settings"
+        android:title="Subscription"/>
     <item
         android:id="@+id/action_item4"
-        android:icon="@drawable/icons_settings"
-        android:title="Settings"/>
+        android:icon="@drawable/icons_profile"
+        android:title="Account"/>
 </menu>

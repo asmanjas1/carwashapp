@@ -1,34 +1,16 @@
 package consumer.fragments;
 
-import android.app.ProgressDialog;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.List;
-import java.util.Map;
-
-import beans.Consumer;
-import beans.Vehicle;
-import consumer.adapter.ConsumerCarAdapter;
-import resources.CarConstant;
-import resources.DummyResponseResultFromRest;
-import resources.RestClient;
-import resources.RestInvokerService;
-import resources.SaveSharedPreference;
-import retrofit2.Call;
-import studio.carwash.com.carwash.CarActivity;
-import studio.carwash.com.carwash.ConsumerActivity;
+import studio.carwash.com.carwash.ConsumerOrderStartActivity;
 import studio.carwash.com.carwash.R;
 
 /**
@@ -37,10 +19,7 @@ import studio.carwash.com.carwash.R;
 
 public class ConsumerHomeFragment extends Fragment{
 
-    Button addCarButton;
-    TextView textView_bookNow;
-    RecyclerView recyclerViewCar;
-    List<Vehicle> vehicleList;
+    Button startOrderButton;
 
 
     public static ConsumerHomeFragment newInstance() {
@@ -63,51 +42,18 @@ public class ConsumerHomeFragment extends Fragment{
         getActivity().setTitle("Home");
         View view  = inflater.inflate(R.layout.consumer_home_fragment, container, false);
 
-        addCarButton = (Button) view.findViewById(R.id.btn_addNewCar);
-        recyclerViewCar = (RecyclerView) view.findViewById(R.id.recyclerViewForConsumerCarList);
-        textView_bookNow = (TextView) view.findViewById(R.id.textView_booknow);
+        startOrderButton = (Button) view.findViewById(R.id.btn_book_order);
 
-        recyclerViewCar.setHasFixedSize(true);
-        recyclerViewCar.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        loadCars();
-        addCarButton.setOnClickListener(new View.OnClickListener() {
+        startOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent carIntent = new Intent(getActivity(), CarActivity.class);
-                startActivity(carIntent);
+                Intent intent =  new Intent( getContext(), ConsumerOrderStartActivity.class);
+                startActivity(intent);
             }
         });
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        loadCars();
-    }
-
-    public void loadCars() {
-        final ProgressDialog progressDialog =  CarConstant.getProgressDialog(getContext(),"Loading...");
-        progressDialog.show();
-        Consumer consumer = SaveSharedPreference.getConsumerFromGson(getContext());
-        vehicleList = consumer.getListOfVehicle();
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(vehicleList != null && vehicleList.size()>0){
-                    progressDialog.dismiss();
-                    ConsumerCarAdapter consumerCarAdapter = new ConsumerCarAdapter(getContext(),vehicleList);
-                    recyclerViewCar.setAdapter(consumerCarAdapter);
-                }else {
-                    progressDialog.dismiss();
-                    Toast.makeText(getContext(),"No cars found.",Toast.LENGTH_LONG).show();
-                }
-            }
-        }, 100);
     }
 
 }

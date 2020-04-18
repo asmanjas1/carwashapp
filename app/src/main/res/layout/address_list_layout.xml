@@ -46,7 +46,22 @@
                 android:textColor="#000000"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
+            <View
+                android:id="@+id/underline"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/textViewAddressTotal"
+                android:background="#f7f5f5"/>
 
+            <TextView
+                android:id="@+id/delete_Address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:text="Delete Address"
+                android:layout_below="@+id/underline"
+                android:padding="4dp" />
 
         </RelativeLayout>
 

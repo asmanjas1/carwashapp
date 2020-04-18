@@ -42,18 +42,13 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button loginButton;
-    private TextView signUpText;
-    private EditText emailText;
-    private EditText passwordText;
+
     public  ProgressDialog progressDialog;
 
     @InjectView(R.id.input_phoneNumberOtp) EditText input_phoneNumberOtp;
     @InjectView(R.id.input_otp) EditText input_otp;
     @InjectView(R.id.btn_sendOtp) Button btn_sendOtp;
     @InjectView(R.id.btn_verifyOtp) Button btn_verifyOtp;
-    @InjectView(R.id.link_useEmailForLogin) TextView link_useEmailForLogin;
-    @InjectView(R.id.link_useOtpForLogin) TextView link_useOtpForLogin;
 
     Gson gson = new Gson();
     String phoneNumber, otp;
@@ -70,71 +65,16 @@ public class MainActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         progressDialog =  CarConstant.getProgressDialog(MainActivity.this,"Logging in...");
 
-        emailText = (EditText) findViewById(R.id.input_email);
-        passwordText = (EditText) findViewById(R.id.input_password);
-        loginButton = (Button) findViewById(R.id.btn_login);
-        signUpText = (TextView) findViewById(R.id.link_signup);
+
         if(SaveSharedPreference.getIsUserLoggedIn(MainActivity.this)){
             Intent intent = new Intent(getApplicationContext(),ConsumerActivity.class);
             startActivity(intent);
             finish();
         } else {
-
-            emailText.setVisibility(View.GONE);
-            passwordText.setVisibility(View.GONE);
-            loginButton.setVisibility(View.GONE);
-            link_useOtpForLogin.setVisibility(View.GONE);
-
-            setUpLoginMethod();
+            input_otp.setVisibility(View.GONE);
+            btn_verifyOtp.setVisibility(View.GONE);
             setUpOtpLogin();
-            loginButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    doLogin();
-                }
-            });
-            signUpText.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            });
         }
-    }
-
-    public void setUpLoginMethod(){
-        link_useOtpForLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                emailText.setVisibility(View.GONE);
-                passwordText.setVisibility(View.GONE);
-                loginButton.setVisibility(View.GONE);
-
-                input_phoneNumberOtp.setVisibility(View.VISIBLE);
-                input_otp.setVisibility(View.VISIBLE);
-                btn_sendOtp.setVisibility(View.VISIBLE);
-                btn_verifyOtp.setVisibility(View.VISIBLE);
-                link_useOtpForLogin.setVisibility(View.GONE);
-                link_useEmailForLogin.setVisibility(View.VISIBLE);
-            }
-        });
-        link_useEmailForLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                input_phoneNumberOtp.setVisibility(View.GONE);
-                input_otp.setVisibility(View.GONE);
-                btn_sendOtp.setVisibility(View.GONE);
-                btn_verifyOtp.setVisibility(View.GONE);
-
-                emailText.setVisibility(View.VISIBLE);
-                passwordText.setVisibility(View.VISIBLE);
-                loginButton.setVisibility(View.VISIBLE);
-                link_useEmailForLogin.setVisibility(View.GONE);
-                link_useOtpForLogin.setVisibility(View.VISIBLE);
-                }
-        });
     }
 
     public void setUpOtpLogin(){
@@ -144,8 +84,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 phoneNumber = input_phoneNumberOtp.getText().toString();
                 if( phoneNumber != null){
-                    btn_sendOtp.setVisibility(View.GONE);
                     logInwithPhoneNumber(phoneNumber);
+                } else {
+                    input_phoneNumberOtp.setError("Please Enter Phone Number!");
                 }
 
 
@@ -159,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
                 if( otp != null){
                     PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationCode, otp);
                     SigninWithPhone(credential);
+                } else {
+                    input_otp.setError("Please Enter Value!");
                 }
 
             }
@@ -176,14 +119,13 @@ public class MainActivity extends AppCompatActivity {
                     String ss = map.get("data").toString();
                     Consumer con = gson.fromJson(ss, Consumer.class);
                     if(con.getConsumerId() == 0){
-                        btn_sendOtp.setVisibility(View.VISIBLE);
                         Toast.makeText(MainActivity.this,"The Phone number is not registered with us.",Toast.LENGTH_SHORT).show();
                     } else {
                         consumerString = ss;
-                        sendFinalOtp();
                     }
+                    sendFinalOtp();
                 } else {
-                    btn_sendOtp.setVisibility(View.VISIBLE);
+                    Toast.makeText(MainActivity.this,"Some problem occurred!",Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -205,6 +147,12 @@ public class MainActivity extends AppCompatActivity {
                     MainActivity.this,
                     mCallback
             );
+            input_otp.setVisibility(View.VISIBLE);
+            btn_verifyOtp.setVisibility(View.VISIBLE);
+
+            input_phoneNumberOtp.setVisibility(View.GONE);
+            btn_sendOtp.setVisibility(View.GONE);
+            Log.d("ras","code otp call function");
         }
     }
 
@@ -215,22 +163,22 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-                btn_sendOtp.setVisibility(View.VISIBLE);
+                Log.d("ras","onVerificationCompleted");
                 saveConsumerObjAndLogin();
                 Toast.makeText(MainActivity.this,"verification completed",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
-                btn_sendOtp.setVisibility(View.VISIBLE);
+                Log.d("ras","onVerificationFailed");
                 Toast.makeText(MainActivity.this,"verification failed",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 super.onCodeSent(s, forceResendingToken);
+                Log.d("ras","onCodeSent");
                 verificationCode = s;
-                btn_sendOtp.setVisibility(View.VISIBLE);
                 Toast.makeText(MainActivity.this,"Code sent",Toast.LENGTH_SHORT).show();
             }
         };
@@ -242,96 +190,34 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            Log.d("ras","isSuccessful");
                             Toast.makeText(MainActivity.this,"Correct OTP",Toast.LENGTH_LONG).show();
                             saveConsumerObjAndLogin();
                         } else {
+                            Log.d("ras","isSuccessfulUn success");
                             Toast.makeText(MainActivity.this,"Incorrect OTP",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
 
-    public void doLogin(){
-        if(!validate()){
-            return;
-        }
-
-
-        progressDialog.show();
-        String email = emailText.getText().toString();
-        String password = passwordText.getText().toString();
-        authLogin(email, password);
-    }
-
     public void saveConsumerObjAndLogin() {
+        Log.d("ras","saveConsumerObjAndLogin");
         auth.signOut();
-        SaveSharedPreference.setConsumerObj(MainActivity.this, consumerString);
-        SaveSharedPreference.setIsUserLoggedIn(MainActivity.this);
-        Intent intent = new Intent(getApplicationContext(), ConsumerActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    private void authLogin(String email, String password){
-        try{
-            RestInvokerService restInvokerService = RestClient.getClient().create(RestInvokerService.class);
-            Consumer consumer = new Consumer();consumer.setEmail(email);consumer.setPassword(password);
-            Call<Map<String, Object>> call = restInvokerService.loginConsumer(consumer);
-            call.enqueue(new Callback<Map<String, Object>>() {
-                @Override
-                public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
-                    Log.d("response:",response.body().toString());
-                    Map<String, Object> map = response.body();
-                    if( map.get("resCode").equals(200.0)){
-                        String ss = map.get("data").toString();
-                        SaveSharedPreference.setConsumerObj(MainActivity.this, ss);
-                        SaveSharedPreference.setIsUserLoggedIn(MainActivity.this);
-                        progressDialog.dismiss();
-                        Intent intent = new Intent(getApplicationContext(), ConsumerActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        progressDialog.dismiss();
-                        authFailed();
-                        return;
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Map<String, Object>> call, Throwable t) {
-                    progressDialog.dismiss();
-                    authFailed();
-                    return;
-                }
-            });
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public void authFailed(){
-        Toast.makeText(getBaseContext(), "Please Enter Valid UserName or Password", Toast.LENGTH_LONG).show();
-    }
-    public boolean validate() {
-        boolean valid = true;
-        String email = emailText.getText().toString();
-        String password = passwordText.getText().toString();
-        if (TextUtils.isEmpty(email) || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailText.setError("please enter a valid email address");
-            valid = false;
-            return valid;
+        if(consumerString != null){
+            SaveSharedPreference.setConsumerObj(MainActivity.this, consumerString);
+            SaveSharedPreference.setIsUserLoggedIn(MainActivity.this);
+            Intent intent = new Intent(getApplicationContext(), ConsumerActivity.class);
+            startActivity(intent);
+            finish();
         } else {
-            emailText.setError(null);
+            Log.d("ras",phoneNumber);
+            Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+            intent.putExtra("registerPhoneNumber",phoneNumber);
+            startActivity(intent);
+            finish();
         }
 
-        if (TextUtils.isEmpty(password) ) {
-            passwordText.setError("please enter your password");
-            valid = false;
-            return valid;
-        } else {
-            passwordText.setError(null);
-        }
-        return valid;
     }
+
 }
