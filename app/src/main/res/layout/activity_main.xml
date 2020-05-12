@@ -4,58 +4,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_main"
     tools:context="studio.carwash.com.carwash.MainActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="vertical"
         android:paddingTop="56dp"
-        android:layout_margin="40px"
-        android:scrollbarThumbVertical="@color/colorAccent">
+        android:scrollbarThumbVertical="@color/colorPrimary">
 
-        <TextView android:id="@+id/textViewDetailsMsg"
+        <TextView
+            android:id="@+id/textViewDetailsMsg"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
+            android:layout_marginTop="50dp"
+            android:height="100dp"
+            android:fontFamily="sans-serif"
             android:text="LogIn/SignUp"
             android:textAlignment="center"
-            android:textSize="24dip"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#FAFDFDFC"
+            android:textSize="36sp" />
 
-        <EditText
-            android:id="@+id/input_phoneNumberOtp"
-            style="@android:style/Widget.DeviceDefault.EditText"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/edit_text_border"
-            android:hint="Contact Number"
-            android:inputType="phone" />
+            android:layout_height="match_parent"
+            android:background="@drawable/layout_border_round"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="40dp">
 
-        <EditText android:id="@+id/input_otp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/edit_text_border"
-            android:hint="Enter otp"/>
-        <Button
-            android:id="@+id/btn_sendOtp"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:padding="12dp"
-            android:text="Send Otp"/>
-        <Button
-            android:id="@+id/btn_verifyOtp"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:padding="12dp"
-            android:text="Verify Otp"/>
+            <EditText
+                android:id="@+id/input_phoneNumberOtp"
+                style="@android:style/Widget.DeviceDefault.EditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:hint="Enter Number"
+                android:inputType="phone" />
+
+            <EditText
+                android:id="@+id/input_otp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:hint="Enter otp"
+                android:inputType="phone"
+                android:textColorLink="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btn_sendOtp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="30dp"
+                android:background="#f5a905"
+                android:padding="12dp"
+                android:text="Send Otp"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btn_verifyOtp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="30dp"
+                android:background="#f5a905"
+                android:padding="12dp"
+                android:text="Verify Otp"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
 
     </LinearLayout>
 

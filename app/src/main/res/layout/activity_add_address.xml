@@ -18,10 +18,14 @@
             android:id="@+id/btnGPSShowLocation"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
             android:layout_marginTop="7dp"
+            android:layout_marginRight="70dp"
             android:layout_marginBottom="7dp"
+            android:background="#f5a905"
             android:padding="12dp"
-            android:text="Use My Current Location" />
+            android:text="Use My Current Location"
+            android:textColor="@color/colorWhite" />
 
         <!--  Pincode Label -->
         <EditText android:id="@+id/address_pincode"
@@ -81,10 +85,22 @@
             android:id="@+id/btn_add_address"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
             android:layout_marginTop="7dp"
+            android:layout_marginRight="70dp"
             android:layout_marginBottom="7dp"
+            android:background="#f5a905"
             android:padding="12dp"
-            android:text="Add address" />
+            android:text="Add address"
+            android:textColor="@color/colorWhite" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Note: Please correct the address if my current location is not right!"
+            android:textStyle="italic" />
 
     </LinearLayout>
 </ScrollView>

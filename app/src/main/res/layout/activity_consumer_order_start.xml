@@ -11,14 +11,13 @@
         android:id="@+id/btn_addNewCar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
         android:layout_marginTop="14dp"
+        android:layout_marginRight="70dp"
         android:layout_marginBottom="14dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/colorWhite"
+        android:background="#f5a905"
         android:text="Add New Vehicle"
-        />
+        android:textColor="@color/colorWhite" />
 
     <TextView
         android:id="@+id/textView_booknow"

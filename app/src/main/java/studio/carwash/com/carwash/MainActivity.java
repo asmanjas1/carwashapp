@@ -42,7 +42,6 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-
     public  ProgressDialog progressDialog;
 
     @InjectView(R.id.input_phoneNumberOtp) EditText input_phoneNumberOtp;
@@ -75,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
             btn_verifyOtp.setVisibility(View.GONE);
             setUpOtpLogin();
         }
+        getSupportActionBar().hide();
     }
 
     public void setUpOtpLogin(){
@@ -140,18 +140,13 @@ public class MainActivity extends AppCompatActivity {
     public void sendFinalOtp(){
         phoneNumber = input_phoneNumberOtp.getText().toString();
         if(phoneNumber != null){
+            phoneNumber = "+91" + phoneNumber;
             PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                    phoneNumber,
-                    70,
+                    phoneNumber,70,
                     TimeUnit.SECONDS,
                     MainActivity.this,
                     mCallback
             );
-            input_otp.setVisibility(View.VISIBLE);
-            btn_verifyOtp.setVisibility(View.VISIBLE);
-
-            input_phoneNumberOtp.setVisibility(View.GONE);
-            btn_sendOtp.setVisibility(View.GONE);
             Log.d("ras","code otp call function");
         }
     }
@@ -159,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
     private void StartFirebaseLogin() {
 
         auth = FirebaseAuth.getInstance();
+            Log.d("ras","code otp call qsac"+auth);
         mCallback = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
             @Override
@@ -178,6 +174,12 @@ public class MainActivity extends AppCompatActivity {
             public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 super.onCodeSent(s, forceResendingToken);
                 Log.d("ras","onCodeSent");
+                input_otp.setVisibility(View.VISIBLE);
+                btn_verifyOtp.setVisibility(View.VISIBLE);
+
+                input_phoneNumberOtp.setVisibility(View.GONE);
+                btn_sendOtp.setVisibility(View.GONE);
+
                 verificationCode = s;
                 Toast.makeText(MainActivity.this,"Code sent",Toast.LENGTH_SHORT).show();
             }

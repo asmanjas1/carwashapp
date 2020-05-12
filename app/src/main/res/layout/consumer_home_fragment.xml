@@ -9,6 +9,7 @@
         android:id="@+id/homeCardId"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:layout_weight="1"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp">
 
@@ -78,7 +79,7 @@
                     android:textSize="18sp"
                     android:text="Dashboard cleaning" />
             </TableRow>
-            <TableRow>
+           <!-- <TableRow>
                 <Button
                     android:id="@+id/btn_book_order"
                     android:layout_width="match_parent"
@@ -91,10 +92,22 @@
                     android:textColor="@color/colorWhite"
                     android:text="Book Now"
                     />
-            </TableRow>
+            </TableRow>-->
 
         </TableLayout>
 
     </android.support.v7.widget.CardView>
 
+    <Button
+        android:id="@+id/btn_book_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginBottom="14dp"
+        android:layout_weight="0"
+        android:background="#f5a905"
+        android:text="Book Now"
+        android:textColor="@color/colorWhite" />
 </LinearLayout>

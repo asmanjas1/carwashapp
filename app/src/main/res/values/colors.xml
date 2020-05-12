@@ -4,5 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorWhite">#ffffff</color>
-
+    <color name="colorActionbar">#F8B932</color>
+    <color name="bottomTabEnable">#F1A603</color>
+    <color name="bottomTabDisable">#E4E0D7</color>
+    <color name="actionBarTop">#FFF1A603</color>
 </resources>

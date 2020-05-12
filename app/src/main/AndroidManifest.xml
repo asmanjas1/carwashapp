@@ -41,6 +41,7 @@
 
         <activity android:name=".OrderStatusActivity" />
         <activity android:name=".ConsumerOrderStartActivity"></activity>
+
     </application>
 
 </manifest>

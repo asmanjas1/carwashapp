@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.provider.Settings;
@@ -70,7 +71,8 @@ public class AddAddressActivity extends AppCompatActivity {
                 saveAddress();
             }
         });
-
+        this.setTitle("Add Address");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorActionbar)));
     }
 
     public void saveAddress () {

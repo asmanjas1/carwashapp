@@ -47,10 +47,14 @@
             android:id="@+id/btn_createVehicle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
             android:layout_marginTop="24dp"
+            android:layout_marginRight="70dp"
             android:layout_marginBottom="24dp"
+            android:background="#f5a905"
             android:padding="12dp"
-            android:text="Add Vehicle"/>
+            android:text="Add Vehicle"
+            android:textColor="@color/colorWhite" />
 
 
     </LinearLayout>

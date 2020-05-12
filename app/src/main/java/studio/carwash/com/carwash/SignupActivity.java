@@ -61,6 +61,7 @@ public class SignupActivity extends AppCompatActivity {
                 signup();
             }
         });
+        getSupportActionBar().hide();
     }
 
     public void signup() {

@@ -2,6 +2,7 @@ package studio.carwash.com.carwash;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -45,9 +46,12 @@ public class CarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car);
+        this.setTitle("Add vehicle");
 
-        vehicleNumber = (EditText) findViewById(R.id.input_vehicle_number);
-        spinnerVehicleMake = (Spinner) findViewById(R.id.spinnerVehicleMake);
+        vehicleNumber =  findViewById(R.id.input_vehicle_number);
+        spinnerVehicleMake = findViewById(R.id.spinnerVehicleMake);
+
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorActionbar)));
 
         ArrayAdapter<String> carMakerAdapter =
                 new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item, CarConstant.carMakeList);

@@ -2,6 +2,7 @@ package studio.carwash.com.carwash;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,7 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OrderActivity extends AppCompatActivity {
-    TextView textViewCarName,textViewCarNumber,textViewSelectedAddress,textViewOrderAmount,textViewReviewOrder,
+    TextView textViewCarName,textViewCarNumber,textViewSelectedAddress,textViewOrderAmount,
     textViewAddressLineSelected,textViewAddressLocalityLandmarkSelected,textViewAddressTotalSelected, no_address, textViewPriceDetail;
     CardView cardViewSelectedAddress,cardViewOrderSummary;
     Gson gson = new Gson();
@@ -50,6 +51,7 @@ public class OrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         this.setTitle("Select Address");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorActionbar)));
 
         Intent intent = getIntent();
         Vehicle vehicle =null;
@@ -68,7 +70,6 @@ public class OrderActivity extends AppCompatActivity {
         textViewAddressLocalityLandmarkSelected = (TextView) findViewById(R.id.textViewAddressLocalityLandmarkSelected);
         textViewAddressTotalSelected = (TextView) findViewById(R.id.textViewAddressTotalSelected);
         textViewOrderAmount = (TextView) findViewById(R.id.textViewOrderAmount);
-        textViewReviewOrder = (TextView) findViewById(R.id.textViewReviewOrder);
 
         cardViewSelectedAddress = (CardView) findViewById(R.id.cardViewSelectedAddress);
         btn_placeOrder = (Button) findViewById(R.id.btn_placeOrder);
@@ -89,7 +90,6 @@ public class OrderActivity extends AppCompatActivity {
         btn_placeOrder.setVisibility(View.GONE);
         cardViewOrderSummary.setVisibility(View.GONE);
         textViewPriceDetail.setVisibility(View.GONE);
-        textViewReviewOrder.setVisibility(View.GONE);
         no_address.setVisibility(View.GONE);
 
         btnAddYourAddress = (Button) findViewById(R.id.btn_addYourAddress);
@@ -154,7 +154,6 @@ public class OrderActivity extends AppCompatActivity {
         btn_placeOrder.setVisibility(View.VISIBLE);
         cardViewOrderSummary.setVisibility(View.VISIBLE);
         textViewPriceDetail.setVisibility(View.VISIBLE);
-       // textViewReviewOrder.setVisibility(View.VISIBLE);
         //textViewOrderAmount.setText("Order Value: ₹ "+ 200 );
         selectedAddress = address;
         textViewAddressLineSelected.setText(address.getAddressLine());

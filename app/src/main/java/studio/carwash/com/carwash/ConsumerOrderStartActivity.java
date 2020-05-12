@@ -2,6 +2,7 @@ package studio.carwash.com.carwash;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -50,6 +51,8 @@ public class ConsumerOrderStartActivity extends AppCompatActivity {
         recyclerViewCar.setLayoutManager(new LinearLayoutManager(this));
         textView_noCarsFound.setVisibility(View.GONE);
         textView_bookNow.setVisibility(View.GONE);
+
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorActionbar)));
 
         loadCars();
         addCarButton.setOnClickListener(new View.OnClickListener() {

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -79,12 +78,12 @@ public class ConsumerOrdersInProgressAdapter extends RecyclerView.Adapter<Consum
             orderSelected = order;
             String orderStatus = order.getOrderStatus();
             if(orderStatus.equals("Completed")){
-                imageView.setBackgroundResource(R.mipmap.order_complete);
+                imageView.setBackgroundResource(R.drawable.order_complete);
             } else if(orderStatus.equals("New")){
                 orderStatus = "New !";
-                imageView.setBackgroundResource(R.mipmap.order_inprogress);
+                imageView.setBackgroundResource(R.drawable.order_new);
             } else {
-                imageView.setBackgroundResource(R.mipmap.order_inprogress);
+                imageView.setBackgroundResource(R.drawable.order_progress);
             }
             textViewOrderInProgress.setText(orderStatus);
             textViewOrderId.setText("Order ID: "+order.getOrderId());
